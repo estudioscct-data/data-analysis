@@ -45,4 +45,19 @@ plt.xlabel('Uso de IA', fontsize=12)
 plt.ylabel('Horas diarias en pantalla (promedio)', fontsize=12)
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.show()
-#the students who use IA improve their grades?
+# the students who use IA improve their grades?
+data_ia = data[data['uses_ai'] == 'Yes'].copy()
+data_ia['improvement'] = data_ia['grades_after_ai'] - data_ia['grades_before_ai']
+print(data_ia[['grades_before_ai', 'grades_after_ai', 'improvement']].head())
+mean_improvement = data_ia['improvement'].mean()
+print(f'Promedio de mejora en calificaciones: {mean_improvement:.2f}')
+print(f"Mediana de la mejora: {data_ia['improvement'].median():.2f} puntos")
+
+# Histograma de la diferencia 
+plt.hist(data_ia['improvement'], bins=10, edgecolor='black')
+plt.title('Distribución de la mejora en notas (después - antes)')
+plt.xlabel('Diferencia en puntos')
+plt.ylabel('Cantidad de estudiantes')
+plt.axvline(x=0, color='red', linestyle='--', label='Sin cambio')
+plt.legend()
+plt.show()
