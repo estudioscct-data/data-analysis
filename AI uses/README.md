@@ -12,15 +12,13 @@ This project explores the relationship between the use of Artificial Intelligenc
 5.  **Which AI tools are most used, and which are most effective?**
 
 ## 📊 Key Findings
-
 | Question | Finding |
 | :--- | :--- |
-| AI usage by age | Younger students (14-16) show higher AI adoption rates (70-75%). |
-| Screen time | AI users spend, on average, 1.5 more hours daily on screens than non-users. |
-| Grade improvement | Students using AI showed an average improvement of **+6.8 points**. |
-| Most effective purpose | Using AI for "Doing exercises" showed the highest improvement (+9.2 points). |
-| Most used tool | ChatGPT is the most used tool (by 65% of AI users). |
-| Most effective tool | Copilot showed the highest average grade improvement (+8.5 points). |
+| AI usage by age | Highest at age 15 (50%), fluctuating between 25-50% across ages 14-19. |
+| Screen time | AI users: 4.47h/day \| Non-users: 4.25h/day (+0.22h difference). |
+| Grade improvement | Average improvement of **+9.82 points** (median +9.50). |
+| Most used AI tool | **Copilot** (14 students), followed by Gemini and ChatGPT (13 each). |
+| **Most effective AI tool** | **Gemini** (+10.84 points), then Copilot (+10.00), then ChatGPT (+8.62). |
 
 ## 🛠️ Tools & Libraries Used
 
@@ -58,7 +56,14 @@ AI_Usage_analysis/
 
 All visualizations will be displayed automatically as the script executes.
 ## 📝 Conclusions
-The analysis suggests a positive correlation between the use of AI tools and academic performance. Students who use AI tend to spend more time on screens but also show significant grade improvements. The effectiveness, however, varies depending on the purpose and the specific tool used, with "doing exercises" and "Copilot" leading to the most notable gains.
+
+- **Age does not strongly predict AI usage.** Usage fluctuates between 25% and 50% across ages 14-19.
+- **Screen time difference is minimal.** AI users spend only 0.22 more hours/day on screens, suggesting AI use does not drastically increase screen exposure.
+- **AI tools are associated with significant grade improvement.** Students improved by nearly 10 points on average after using AI.
+- **Gemini is the most effective AI tool** for grade improvement (+10.84 points on average), despite being the second most used.
+- **Copilot is the most popular** (14 users) but slightly less effective (+10.00 points).
+- **ChatGPT**, while widely used (13 users), shows the lowest average improvement (+8.62 points).
+- This suggests that **effectiveness is not directly tied to popularity**. Students may choose tools based on factors other than academic results (e.g., ease of use, accessibility, or habit).
 
 ## 👩‍🔬 Author
 Name: Carolina Caballero
