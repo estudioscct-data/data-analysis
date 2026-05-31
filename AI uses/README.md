@@ -32,9 +32,9 @@ This project explores the relationship between the use of Artificial Intelligenc
 ## 📁 Repository Structure
 AI_Usage_analysis/
 │
-├── students_ai_usage.csv # Dataset (CC0 Public Domain)
-├── analysis.py # Full analysis script
-└── README.md # This file
+├── students_ai_usage.csv      # Dataset (CC0 Public Domain)
+├── analysis.py                # Full analysis script
+└── README.md                  # This file
 
 ## 📚 Data Source & License
 
