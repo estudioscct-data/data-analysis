@@ -1,91 +1,125 @@
-import pandas as pd 
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns   
-ruta = 'C:/Users/HP/Desktop/Proyectos/data-analysis/AI uses/students_ai_usage.csv'
-data = pd.read_csv(ruta)
-print(data.head())      
+import seaborn as sns
+
+# Load dataset
+file_path = 'C:/Users/HP/Desktop/Proyectos/data-analysis/AI uses/students_ai_usage.csv'
+data = pd.read_csv(file_path)
+
+# Display first rows
+print("First 5 rows of the dataset:")
+print(data.head())
+
+# Age range
 max_age = data['age'].max()
 min_age = data['age'].min()
-print(f'La edad máxima de los estudiantes es: {max_age}')
-print(f'La edad minima de los estudiantes es: {min_age}')
-# the most youngest use mor IA than older students?
-data.loc[:,['age', 'uses_ai']]
-proportion = data.groupby('age')['uses_ai'].value_counts(normalize = True).unstack()
-porcentual = proportion * 100
-print(porcentual)
-proportion_yes = porcentual.loc[:, 'Yes']
-proportion_yes.plot(kind='bar')
-plt.title('Uso de IA por edad', fontsize=14)
-plt.ylabel('Porcentaje (%)', fontsize=12)
-plt.xlabel('Edad', fontsize=12)
+print(f"Maximum student age: {max_age}")
+print(f"Minimum student age: {min_age}")
+
+# Question 1: Do younger students use AI more?
+proportion = data.groupby('age')['uses_ai'].value_counts(normalize=True).unstack()
+percentage = proportion * 100
+print("\nPercentage of AI usage by age:")
+print(percentage)
+
+# Plot: AI usage by age (only 'Yes')
+percentage_yes = percentage.loc[:, 'Yes']
+percentage_yes.plot(kind='bar')
+plt.title('AI Usage by Age', fontsize=14)
+plt.ylabel('Percentage (%)', fontsize=12)
+plt.xlabel('Age', fontsize=12)
 plt.ylim(0, 100)
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.show()
-# the students who use IA, how many hours do they spend on the screen? they spend
-# more time on the screen than those who do not use IA? 
+
+# Question 2: Screen time comparison (AI users vs non-AI users)
 screen_time_ai_users = data[data['uses_ai'] == 'Yes']['daily_screen_time_hours']
 screen_time_non_ai_users = data[data['uses_ai'] == 'No']['daily_screen_time_hours']
-mean_screen_time_ai_users = screen_time_ai_users.mean()
-mean_screen_time_non_ai_users = screen_time_non_ai_users.mean()
-print(f'Tiempo promedio en pantalla para usuarios de IA: {mean_screen_time_ai_users:.2f} horas')
-print(f'Tiempo promedio en pantalla para no usuarios de IA: {mean_screen_time_non_ai_users:.2f} horas')
+
+mean_screen_time_ai = screen_time_ai_users.mean()
+mean_screen_time_non_ai = screen_time_non_ai_users.mean()
+
+print(f"\nAverage screen time for AI users: {mean_screen_time_ai:.2f} hours")
+print(f"Average screen time for non-AI users: {mean_screen_time_non_ai:.2f} hours")
+
+# Boxplot
 plt.figure(figsize=(10, 6))
 sns.boxplot(x='uses_ai', y='daily_screen_time_hours', data=data)
-plt.title('Tiempo en pantalla por uso de IA', fontsize=14)
-plt.xlabel('Uso de IA', fontsize=12)
-plt.ylabel('Horas diarias en pantalla', fontsize=12)
+plt.title('Screen Time by AI Usage', fontsize=14)
+plt.xlabel('Uses AI', fontsize=12)
+plt.ylabel('Daily Screen Time (hours)', fontsize=12)
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.show()
-promedio_screen_time = data.groupby('uses_ai')['daily_screen_time_hours'].mean().reset_index()
+
+# Barplot with averages
 plt.figure(figsize=(8, 6))
 sns.barplot(x='uses_ai', y='daily_screen_time_hours', data=data, estimator='mean', errorbar='sd')
-plt.title('Tiempo promedio en pantalla por uso de IA', fontsize=14)
-plt.xlabel('Uso de IA', fontsize=12)
-plt.ylabel('Horas diarias en pantalla (promedio)', fontsize=12)
+plt.title('Average Screen Time by AI Usage', fontsize=14)
+plt.xlabel('Uses AI', fontsize=12)
+plt.ylabel('Average Daily Screen Time (hours)', fontsize=12)
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.show()
-# the students who use IA improve their grades?
+
+# Question 3: Do AI users improve their grades?
 data_ia = data[data['uses_ai'] == 'Yes'].copy()[['grades_before_ai', 'grades_after_ai', 'purpose_of_ai', 'ai_tools_used']]
 data_ia['improvement'] = data_ia['grades_after_ai'] - data_ia['grades_before_ai']
+
+print("\nFirst rows of improvement data:")
 print(data_ia[['grades_before_ai', 'grades_after_ai', 'improvement']].head())
+
 mean_improvement = data_ia['improvement'].mean()
-print(f'Promedio de mejora en calificaciones: {mean_improvement:.2f}')
-print(f"Mediana de la mejora: {data_ia['improvement'].median():.2f} puntos")
+median_improvement = data_ia['improvement'].median()
+
+print(f"Average grade improvement: {mean_improvement:.2f} points")
+print(f"Median grade improvement: {median_improvement:.2f} points")
+
+# Histogram of improvement
 plt.hist(data_ia['improvement'], bins=10, edgecolor='black')
-plt.title('Distribución de la mejora en notas (después - antes)')
-plt.xlabel('Diferencia en puntos')
-plt.ylabel('Cantidad de estudiantes')
-plt.axvline(x=0, color='red', linestyle='--', label='Sin cambio')
+plt.title('Distribution of Grade Improvement (After - Before)', fontsize=14)
+plt.xlabel('Grade Difference (points)', fontsize=12)
+plt.ylabel('Number of Students', fontsize=12)
+plt.axvline(x=0, color='red', linestyle='--', label='No change')
 plt.legend()
 plt.show()
-#the purpose of using IA and their improvements are related?
 
+# Question 4: Improvement by purpose of AI usage
 improve_purpose = data_ia.groupby('purpose_of_ai')['improvement'].mean().reset_index()
+improve_purpose = improve_purpose.sort_values(by='improvement', ascending=True)  # Sorted for better readability
+
 improve_purpose.plot(kind='barh', x='purpose_of_ai', y='improvement', legend=False, color='teal', edgecolor='black')
-plt.title('Mejora promedio en notas según propósito de uso de IA')
-plt.xlabel('Mejora en puntos (después - antes)')
-plt.ylabel('Propósito')
+plt.title('Average Grade Improvement by Purpose of AI Usage', fontsize=14)
+plt.xlabel('Grade Improvement (points)', fontsize=12)
+plt.ylabel('Purpose of AI', fontsize=12)
 plt.axvline(x=0, color='red', linestyle='--')
+plt.tight_layout()
 plt.show()
 
-#which AI tools are more used by students? and which one is the most effective in improving their grades?
+# Question 5: Most used AI tools and their effectiveness
 most_popular = data_ia['ai_tools_used'].value_counts()
-print("Herramientas de IA más utilizadas por los estudiantes:")
+print("\nMost used AI tools:")
 print(most_popular)
+
 most_popular.plot(kind='bar', color='skyblue', edgecolor='black')
-plt.title('Herramientas de IA más utilizadas por los estudiantes')
-plt.xlabel('Herramienta de IA')
-plt.ylabel('Cantidad de estudiantes')
+plt.title('Most Used AI Tools by Students', fontsize=14)
+plt.xlabel('AI Tool', fontsize=12)
+plt.ylabel('Number of Students', fontsize=12)
 plt.xticks(rotation=45)
-plt.grid(axis='y', linestyle='--', alpha=0.7)   
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
 plt.show()
 
+# Effectiveness by AI tool
 most_effective = data_ia.groupby('ai_tools_used')['improvement'].mean().reset_index()
 most_effective = most_effective.sort_values(by='improvement', ascending=False)
+
+print("\nAverage grade improvement by AI tool:")
+print(most_effective)
+
 most_effective.plot(kind='barh', x='ai_tools_used', y='improvement', legend=False, color='coral', edgecolor='black')
-plt.title('Mejora promedio en notas según herramienta de IA utilizada')
-plt.xlabel('Mejora en puntos (después - antes)')
-plt.ylabel('Herramienta de IA')
+plt.title('Average Grade Improvement by AI Tool', fontsize=14)
+plt.xlabel('Grade Improvement (points)', fontsize=12)
+plt.ylabel('AI Tool', fontsize=12)
 plt.axvline(x=0, color='red', linestyle='--')
+plt.tight_layout()
 plt.show()
