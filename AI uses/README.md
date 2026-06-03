@@ -32,7 +32,17 @@ AI_Usage_analysis/
     students_ai_usage.csv      # Dataset (CC0 Public Domain)
     analysis.py                # Full analysis script
     README.md                  # This file
+## 📊 Power BI Dashboard
 
+Se construyó un dashboard interactivo para explorar visualmente los hallazgos clave:
+
+![Dashboard Preview](dashboard_preview.png)
+
+**Visualizaciones incluidas:**
+- **Mejora promedio general:** +10.00 puntos
+- **Por herramienta de IA:** Gemini (+10.84) > Copilot (+10.00) > ChatGPT (+8.62)
+- **Por propósito:** Research, Coding y Homework muestran mejoras significativas
+- **Uso de IA por edad:** Entre 30-50% según el grupo etario
 ## 📚 Data Source & License
 
 - **Title:** Student AI Tools vs Exam scores
